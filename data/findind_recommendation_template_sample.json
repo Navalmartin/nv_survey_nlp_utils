@@ -1,0 +1,23 @@
+{
+  "survey_data": {
+    "survey_type": "string",
+    "survey_summary": "string"
+
+  },
+  "vessel_data": {
+
+  },
+  "findings_data": [
+   {
+    "id": "integer",
+    "finding_type": "string any of (SURVEYOR'S NOTES AND OBSERVATIONS, OTHER DEFICIENCIES NEEDING ATTENTION, SAFETY DEFICIENCIES)",
+    "subtype": "string",
+    "checkpoint_item": "string ",
+    "checkpoint_group": "string",
+    "finding": "string",
+    "recommendation": "string",
+    "description": "string",
+     "severity": "string any of: (SEVERE, MEDIUM, ACCEPTABLE)"
+  }
+  ]
+}
