@@ -1,21 +1,18 @@
 from pathlib import Path
-import os
-from utils.eda_utils import (
+import spacy
+from src.utils.eda_utils import (
     count_document_number_of_pages,
     count_document_number_of_images,
-    get_section_text,
-    count_images_per_page,
-    text_from_pdf_to_txt,
-    download_survey_pdf,
-    get_number_of_files_in_dir,
-    extract_images,
     get_files_in_dir,
     count_files_for_key
 )
 
-from utils.survey_document import SurveyDocumentBase
-from utils.survey_type_enum import SurveyTypeEnum
-from utils.search_utils import DROP_WORDS_FOR_CONTENTS_SEARCH
+from src.utils.survey_document import SurveyDocumentBase
+from src.utils.survey_type_enum import SurveyTypeEnum
+from src.utils.search_utils import DROP_WORDS_FOR_CONTENTS_SEARCH
+from src.utils.spacy_sentence_builder import SpaCySentenceBuilder
+from src.utils.text_pipeline import TextPipeline
+from src.utils.text_tasks import (ReplaceTask, LStrip, RStrip, RemovePunctuation)
 
 data_dir = Path("./data")
 condition_surveys_dir = data_dir / "condition_surveys"
@@ -30,7 +27,8 @@ if __name__ == "__main__":
 
     surveys_per_vessel_type = {}
 
-    vessel_types = ["RIB", "SAIL-CAT", "SAIL-MONO", "Motor - Open-center console",
+    vessel_types = ["RIB", "SAIL-CAT", "SAIL-MONO",
+                    "Motor - Open-center console",
                     "Super+mega", "Motor cabin"]
 
     for key in vessel_types:
@@ -63,22 +61,53 @@ if __name__ == "__main__":
 
     survey = Path(
         "/home/alex/qi3/nv_nlp_utils/notebooks/data/condition_surveys/Motor - Open-center console/coldsample.pdf")
+
     section_title = "SUMMARY AND VALUATION"
-    #pages = get_section_text(pdf_path=survey,
-    #                         section="SUMMARY AND VALUATION",
-    #                         encoding="utf8")
-
-    #print(f"Found {len(pages)} pages with title={section_title}")
-
     survey = SurveyDocumentBase(survey_file=survey,
                                 survey_type=SurveyTypeEnum.CONDITION_SURVEY)
 
+    drop_contents_words = DROP_WORDS_FOR_CONTENTS_SEARCH + [str('"Cold mold Sample" surveyed by Ulrick Marine  - Holland, PA 18966').lower()]
 
-    drop_contents_words  = DROP_WORDS_FOR_CONTENTS_SEARCH + [str('"Cold mold Sample" surveyed by Ulrick Marine  - Holland, PA 18966').lower()]
-    survey.parse_table_of_contents(title="TABLE OF CONTENTS",
-                                   drop_words=drop_contents_words)
-    #survey.parse_per_section(section_name="SUMMARY AND VALUATION")
+    # parse the document
+    survey.parse_document(toc_name="TABLE OF CONTENTS",
+                          drop_words=drop_contents_words)
 
+    nlp = spacy.load('en_core_web_sm')
+    sentence_builder = SpaCySentenceBuilder(nlp=nlp)
+    # loop over the sections of the document
+    for section_name, section in survey:
+        print(f"Section={section_name}, number of pages={len(section)}")
 
+        if section_name == "INTRODUCTION":
+            section.remove_punctuation()
+            section.build_section_sentences(sentence_builder)
+
+    section_name = "INTRODUCTION"
+    introduction = survey.sections[section_name]
+
+    section_pipeline = TextPipeline(tasks=[ReplaceTask(replace_with="", text_to_replace="."),
+                                           RemovePunctuation(),
+                                           LStrip(), RStrip()])
+
+    introduction.apply_pipeline(pipeline=section_pipeline)
+    print(f"Number of pages in section={section_name}, {len(introduction)}")
+
+    page_id = 1
+    page = introduction[page_id]
+    print(f"Looking at page {page_id}")
+
+    '''
+    remove_sentences = []
+    for i, sentence in enumerate(page):
+        if sentence == " ":
+            remove_sentences.append(i)
+    
+    page.drop_sentences(remove_sentences)
+    '''
+
+    for i, sentence in enumerate(page):
+
+        if len(sentence) != 0:
+            print(f"Sentence {i}= {sentence}")
 
 
