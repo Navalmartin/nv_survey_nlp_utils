@@ -1,0 +1,76 @@
+{
+  # Survey data
+  "survey_data": {
+    "survey_doc_id": "string",
+    "survey_type": "string",
+    "survey_summary": "string",
+    "purpose_of_survey": "string",
+
+    # List of the severity scales that the survey adopts
+    "severity_scales": [{"type":  "string", "explanation": ""}]
+  },
+
+  # vessel data
+  "vessel_data": {
+
+    "vessel_name": "string",
+    "hull_material": "string",
+    "hin": "string",
+    "sea_category": "string",
+    "vessel_type": "string",
+
+    # Engine data
+    "engine": {
+
+      # Horse power per engine. We can use a dict if this
+      # is not the same per engine
+      "hp": integer,
+
+      # The type of the engine. Can use a dict if the
+      # engine type is different
+      "engine_type": "Twin Petrol, V6, 4.3 litre",
+      "engine_manufacturer": "Volvo Penta",
+      "build_date": "1996"
+    },
+
+    # List of various dimensions of the
+    # vessel.
+    "dimensions": List[Dict] = [
+      {
+        "units":"string",
+        "max_length": float
+      }]
+  },
+  # synopsis for checkpoint
+  "checkpoint_synopsis_data": [{
+      "checkpoint_item": "string",
+      "checkpoint_group": "string",
+      "synopsis": "string",
+
+      # severity level according to mir
+      "severity": "string",
+
+      # severity level according to the survey
+      "comment_on_severity": "string"
+  }],
+
+  # the findings list
+  "findings_data": [
+  {
+      "id": integer,
+      "finding_type": "string",
+      "subtype": "string",
+      "checkpoint_item": "string",
+      "checkpoint_group": "string",
+      "finding": "string",
+
+      # list of labels in the finding
+      "defect_labels": List[String],
+      "recommendation": "string",
+      "extra_recommendations_follow": List[String],
+      "description": "string",
+      "severity": "string",
+      "comment_on_severity": "string"
+    },
+  ]
+}

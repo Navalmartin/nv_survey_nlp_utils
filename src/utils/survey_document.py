@@ -18,6 +18,7 @@ class SurveyDocumentBase(object):
         self.survey_text: str = None
         self.sections: dict = {}
         self.contents = []
+        self.survey_doc_metadata = None
         self.n_pages = 0
         self._current_pos = -1
 
@@ -92,6 +93,7 @@ class SurveyDocumentBase(object):
         with fitz.open(self.survey_file) as pdf:
             self.contents = pdf.get_toc(simple)
             self.n_pages = pdf.page_count
+            self.survey_doc_metadata = pdf.metadata
         return self.contents
 
     def get_page_text(self, page_id: Union[int, tuple], search_for_text: str = None):
