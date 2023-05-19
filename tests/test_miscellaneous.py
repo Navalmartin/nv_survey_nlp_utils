@@ -1,5 +1,5 @@
 import unittest
-from src.utils.survey_item_type_enum import get_survey_item_strings_human_read, SURVEY_ITEM_TYPE_STRS
+from src.mir_survey_utils.utils import get_survey_item_strings_human_read, SURVEY_ITEM_TYPE_STRS
 
 
 class TestMiscellenaous(unittest.TestCase):

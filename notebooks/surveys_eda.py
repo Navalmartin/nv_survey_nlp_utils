@@ -1,18 +1,18 @@
 from pathlib import Path
 import spacy
-from src.utils.eda_utils import (
+from src.mir_survey_utils.utils import (
     count_document_number_of_pages,
     count_document_number_of_images,
     get_files_in_dir,
     count_files_for_key
 )
 
-from src.utils.survey_document import SurveyDocumentBase
-from src.utils.survey_type_enum import SurveyTypeEnum
-from src.utils.search_utils import DROP_WORDS_FOR_CONTENTS_SEARCH
-from src.utils.spacy_sentence_builder import SpaCySentenceBuilder
-from src.utils.text_pipeline import TextPipeline
-from src.utils.text_tasks import (ReplaceTask, LStrip, RStrip, RemovePunctuation)
+from src.mir_survey_utils.utils import SurveyDocumentBase
+from src.mir_survey_utils.utils import SurveyTypeEnum
+from src.mir_survey_utils.utils import DROP_WORDS_FOR_CONTENTS_SEARCH
+from src.mir_survey_utils.utils import SpaCySentenceBuilder
+from src.mir_survey_utils.utils import TextPipeline
+from src.mir_survey_utils.utils import (ReplaceTask, LStrip, RStrip, RemovePunctuation)
 
 data_dir = Path("./data")
 condition_surveys_dir = data_dir / "condition_surveys"
