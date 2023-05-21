@@ -3,9 +3,12 @@ import json
 from loguru import logger
 from typing import Union, List
 from pydantic import Field
-from src.mir_survey_utils.survey_schemas.engine_schema import Engine, EngineEntry
+from src.mir_survey_utils.survey_schemas.engine_data_schema import Engine, EngineEntry
 from src.mir_survey_utils.survey_schemas.vessel_data_schema import VesselDim, VesselDataSchema
 from src.mir_survey_utils.survey_schemas.survey_data_schema import SurveyDataSchema, SeverityScale
+from src.mir_survey_utils.survey_schemas.finding_data_schema import FindingDataSchema
+from src.mir_survey_utils.survey_schemas.survey_item_data_schema import SurveyItemDataSchema
+from src.mir_survey_utils.survey_schemas.checkpoint_data_schema import CheckpointDataSchema
 
 OK = "OK"
 NOT_OK = "NOT_OK"
@@ -48,6 +51,21 @@ class ConditionSurveyValidator(object):
 
             if validate_engine != OK:
                 raise ValueError("Vessel engine was not validated")
+
+            validate_survey_items_data = self._validate_survey_items_data()
+
+            if validate_survey_items_data != OK:
+                raise ValueError("Survey validate_survey_items_data not validated")
+
+            validate_checkpoint_data = self._validate_survey_checkpoints_data()
+
+            if validate_checkpoint_data != OK:
+                raise ValueError("Survey checkpoint_synopsis_data not validated")
+
+            validate_findings = self._validate_findings()
+
+            if validate_findings != OK:
+                raise ValueError("Survey findings not validated")
 
             self.is_valid = True
         except Exception as e:
@@ -152,4 +170,58 @@ class ConditionSurveyValidator(object):
             return OK
         except Exception as e:
             logger.error(f"An error occurred whilst validating engine {str(e)}")
+            return NOT_OK
+
+    def _validate_findings(self):
+
+        try:
+            logger.info("Validating findings...")
+            findings = self.survey['findings_data']
+
+            for finding in findings:
+                finding = FindingDataSchema(**finding)
+
+            self.valid_survey['findings_data'] = findings
+            logger.info("Validating findings. DONE")
+            return OK
+        except Exception as e:
+            logger.error(f"An error occurred whilst validating findings. {str(e)}")
+            return NOT_OK
+
+    def _validate_survey_checkpoints_data(self):
+
+        try:
+            logger.info("Validating survey checkpoint_synopsis_data...")
+            checkpoint_synopsis_data = self.survey['checkpoint_synopsis_data']
+
+            if checkpoint_synopsis_data is None:
+                checkpoint_synopsis_data = []
+
+            for survey_item in checkpoint_synopsis_data:
+                survey_item = CheckpointDataSchema(**survey_item)
+
+            self.valid_survey['checkpoint_synopsis_data'] = checkpoint_synopsis_data
+            logger.info("Validating survey checkpoint_synopsis_data. DONE")
+            return OK
+        except Exception as e:
+            logger.error(f"An error occurred whilst validating checkpoint_synopsis_data. {str(e)}")
+            return NOT_OK
+
+    def _validate_survey_items_data(self):
+
+        try:
+            logger.info("Validating survey items data...")
+            survey_items_data = self.survey['survey_items_data']
+
+            if survey_items_data is None:
+                survey_items_data = []
+
+            for survey_item in survey_items_data:
+                survey_item = SurveyItemDataSchema(**survey_item)
+
+            self.valid_survey['survey_items_data'] = survey_items_data
+            logger.info("Validating survey items data. DONE")
+            return OK
+        except Exception as e:
+            logger.error(f"An error occurred whilst validating survey_items_data. {str(e)}")
             return NOT_OK
