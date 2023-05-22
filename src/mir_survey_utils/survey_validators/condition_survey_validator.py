@@ -49,4 +49,4 @@ class ConditionSurveyValidator(object):
             raise ValueError("json format is expected here.")
 
         with open(filename, 'w') as f:
-            json.dump(self.valid_survey, f)
+            json.dump(self.valid_survey, f, indent=1)

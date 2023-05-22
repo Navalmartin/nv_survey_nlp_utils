@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 from src.mir_survey_utils.survey_validators.condition_survey_validator import ConditionSurveyValidator
 
 
@@ -63,8 +63,10 @@ def replace_checkpoint_group_name(survey: ConditionSurveyValidator,
     survey_findings = survey.valid_survey['findings_data']
 
     updated = 0
-    for i, finding in survey_findings:
+    for i, finding in enumerate(survey_findings):
+
         if finding['checkpoint_item'] in checkpoint_group_name:
+
             finding['checkpoint_item'] = checkpoint_group_name[finding['checkpoint_item']]
             survey_findings[i] = finding
             updated += 1
@@ -72,19 +74,19 @@ def replace_checkpoint_group_name(survey: ConditionSurveyValidator,
     return updated
 
 
-
 def set_checkpoint_item_to_checkpoint_group(survey: ConditionSurveyValidator,
                                             checkpoint_item_to_checkpoint_group: dict) -> int:
     survey_findings = survey.valid_survey['findings_data']
 
     updated = 0
-    for i, finding in survey_findings:
+    for i, finding in enumerate(survey_findings):
         if finding['checkpoint_item'] in checkpoint_item_to_checkpoint_group:
             finding['checkpoint_group'] = checkpoint_item_to_checkpoint_group[finding['checkpoint_item']]
             survey_findings[i] = finding
             updated += 1
 
     return updated
+
 
 def replace_findings_severity(survey: ConditionSurveyValidator,
                               old_severity_value: str,
@@ -105,6 +107,52 @@ def replace_findings_severity(survey: ConditionSurveyValidator,
             updated += 1
 
     return updated
+
+
+def remove_findings(survey: ConditionSurveyValidator,
+                    checkpoint_items: List[str]=None,
+                    checkpoint_ids: List[Union[str, int]] = None) -> int:
+    survey_findings = survey.valid_survey['findings_data']
+
+    if checkpoint_items is None and checkpoint_ids is None:
+        updated = len(survey_findings)
+        survey.valid_survey['findings_data'] = []
+        return updated
+
+    updated = 0
+    remove = []
+    for i, finding in enumerate(survey_findings):
+
+        survey_checkpoint_item = finding['checkpoint_item']
+        id = finding['id']
+
+        if checkpoint_items is not None and survey_checkpoint_item in checkpoint_items:
+            remove.append(i)
+            updated += 1
+        elif checkpoint_ids is not None and id in checkpoint_ids:
+            remove.append(i)
+            updated += 1
+
+    survey.valid_survey['findings_data'] = [finding for i, finding in enumerate(survey_findings) if i not in remove]
+    return updated
+
+
+def remove_property(survey: ConditionSurveyValidator,
+                    property_name: str) -> int:
+
+    survey_findings = survey.valid_survey['findings_data']
+    updated = 0
+    remove = []
+    for i, finding in enumerate(survey_findings):
+
+        finding.pop(property_name)
+        survey_findings[i] = finding
+        updated += 1
+
+    return updated
+
+
+
 
 
 
