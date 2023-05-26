@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Union
+from typing import Union, Any
 import json
 from .condition_survey_validator_pimpl import ConditionSurveyValidatorPimpl
 
@@ -13,6 +13,9 @@ class ConditionSurveyValidator(object):
 
         self.pimpl = ConditionSurveyValidatorPimpl(survey_json_doc=survey_json_doc,
                                                    validate=validate)
+
+    def __getitem__(self, item) -> Any:
+        return self.valid_survey[item]
 
     @property
     def is_valid(self) -> bool:

@@ -13,9 +13,9 @@ from src.mir_survey_utils.survey_transformers.findings_transformers import (trim
 if __name__ == '__main__':
 
     #survey_path = Path("/home/alex/qi3/mir_datasets/surveys/preprocessed/FYS_SURVEY_REPORT_HIRONDELLE_MK2_issue_1.json")
-    #survey_path = Path("/home/alex/qi3/mir_datasets/surveys/preprocessed/FYS_SURVEY_REPORT_Fountaine-Pajot-Maldives-32_issue_1.json")
-    survey_path = Path(
-        "/home/alex/qi3/mir_datasets/surveys/preprocessed/catsample.json")
+    survey_path = Path("/home/alex/qi3/mir_datasets/surveys/preprocessed/FYS_SURVEY_REPORT_Fountaine-Pajot-Maldives-32_issue_1.json")
+    #survey_path = Path(
+    #    "/home/alex/qi3/mir_datasets/surveys/preprocessed/catsample.json")
 
     survey = ConditionSurveyValidator(survey_json_doc=survey_path, validate=True)
 
@@ -62,7 +62,6 @@ if __name__ == '__main__':
 
     logger.info(f"Removed {updated} findings")
 
-
     not_found = set_checkpoint_group_to_mir_type(survey, checkpoint_group_map=checkpoint_to_survey_item_map)
 
     if len(not_found) != 0:
@@ -102,10 +101,11 @@ if __name__ == '__main__':
                                                     'ELECTRICAL_SYSTEM': 'ELECTRICAL_AND_ELECTRONICS',
                                                     'NAVIGATION_LIGHTS': 'ELECTRICAL_AND_ELECTRONICS',
                                                     'BAILING_BILGE_PUMPING': 'BILGE_PUMPS',
+                                                    "FRESH_WATER_SYSTEM": "DOMESTIC_EQUIPMENT"
                                                 })
     else:
         logger.info("All checkpoints have been identified")
 
     # save the valid survey
-    filename = survey.filename
-    survey.save(filename=Path(f"/home/alex/qi3/nv_nlp_utils/tmp_files/{filename}"))
+    #filename = survey.filename
+    #survey.save(filename=Path(f"/home/alex/qi3/nv_nlp_utils/tmp_files/{filename}"))

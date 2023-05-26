@@ -145,9 +145,10 @@ def remove_property(survey: ConditionSurveyValidator,
     remove = []
     for i, finding in enumerate(survey_findings):
 
-        finding.pop(property_name)
-        survey_findings[i] = finding
-        updated += 1
+        if property_name in finding:
+            finding.pop(property_name)
+            survey_findings[i] = finding
+            updated += 1
 
     return updated
 

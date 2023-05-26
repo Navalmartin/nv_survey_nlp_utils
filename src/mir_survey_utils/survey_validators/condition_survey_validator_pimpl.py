@@ -3,12 +3,12 @@ import json
 from loguru import logger
 from typing import Union, List
 
-from src.mir_survey_utils.survey_schemas.engine_data_schema import Engine, EngineEntry
-from src.mir_survey_utils.survey_schemas.vessel_data_schema import VesselDim, VesselDataSchema
-from src.mir_survey_utils.survey_schemas.survey_data_schema import SurveyDataSchema, SeverityScale
-from src.mir_survey_utils.survey_schemas.finding_data_schema import FindingDataSchema
-from src.mir_survey_utils.survey_schemas.survey_item_data_schema import SurveyItemDataSchema
-from src.mir_survey_utils.survey_schemas.checkpoint_data_schema import CheckpointDataSchema
+from src.mir_survey_utils.schemata.survey_schemas.engine_data_schema import Engine, EngineEntry
+from src.mir_survey_utils.schemata.survey_schemas.vessel_data_schema import VesselDim, VesselDataSchema
+from src.mir_survey_utils.schemata.survey_schemas.survey_data_schema import SurveyDataSchema, SeverityScale
+from src.mir_survey_utils.schemata.survey_schemas.finding_data_schema import FindingDataSchema
+from src.mir_survey_utils.schemata.survey_schemas.survey_item_data_schema import SurveyItemDataSchema
+from src.mir_survey_utils.schemata.survey_schemas.checkpoint_data_schema import CheckpointDataSchema
 
 OK = "OK"
 NOT_OK = "NOT_OK"
@@ -82,6 +82,13 @@ class ConditionSurveyValidatorPimpl(object):
             severity_scales_arr: List[SeverityScale] = []
 
             for item in severity_scales:
+
+                if 'type' not in item:
+                    raise ValueError("'type' not in keys. Invalid format")
+
+                if 'explanation' not in item:
+                    raise ValueError("'explanation' not in keys. Invalid format")
+
                 severity_scales_arr.append(SeverityScale(**{"name": item["type"],
                                                             "explanation": item["explanation"]}))
 
@@ -96,7 +103,7 @@ class ConditionSurveyValidatorPimpl(object):
             logger.info("Validating survey data. DONE")
             return OK
         except Exception as e:
-            logger.error(f"An error occurred whilst validating vessel data {str(e)}")
+            logger.error(f"An error occurred whilst validating survey data {str(e)}")
             return NOT_OK
 
     def _validate_vessel_data(self) -> Union[OK, NOT_OK]:
@@ -108,6 +115,9 @@ class ConditionSurveyValidatorPimpl(object):
             dimensions: List[VesselDim] = []
 
             for item in survey_dimensions:
+
+                if 'units' not in item:
+                    raise ValueError("'units' not in keys. Invalid format")
 
                 keys = list(item.keys())
                 keys.remove("units")
@@ -144,6 +154,10 @@ class ConditionSurveyValidatorPimpl(object):
         try:
             logger.info("Validating engine...")
             vessel_data = self.survey["vessel_data"]
+
+            if 'engine' not in vessel_data:
+                raise ValueError("'engine' not in keys. Invalid format")
+
             engine = vessel_data["engine"]
 
             # how many engines we have
