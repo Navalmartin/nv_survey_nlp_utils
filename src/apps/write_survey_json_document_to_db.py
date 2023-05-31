@@ -12,10 +12,10 @@ from src.mir_survey_utils.survey_validators.condition_survey_validator import Co
 
 
 DOTENV_PATH = Path("/home/alex/qi3/dotenvs/.env")
-#SURVEY_JSON_DOC = Path("/home/alex/qi3/mir_datasets/surveys/cleaned/catsample.json")
+SURVEY_JSON_DOC = Path("/home/alex/qi3/mir_datasets/surveys/cleaned/catsample.json")
 
 #SURVEY_JSON_DOC = Path("/home/alex/qi3/mir_datasets/surveys/cleaned/FYS_SURVEY_REPORT_Fountaine-Pajot-Maldives-32_issue_1.json")
-SURVEY_JSON_DOC = Path("/home/alex/qi3/mir_datasets/surveys/cleaned/FYS_SURVEY_REPORT_HIRONDELLE_MK2_issue_1.json")
+#SURVEY_JSON_DOC = Path("/home/alex/qi3/mir_datasets/surveys/cleaned/FYS_SURVEY_REPORT_HIRONDELLE_MK2_issue_1.json")
 
 
 async def insert_findings(findings: List, db_session: MongoDBSession):
@@ -39,6 +39,9 @@ if __name__ == '__main__':
 
         survey = ConditionSurveyValidator(survey_json_doc=SURVEY_JSON_DOC,
                                           validate=True)
+
+        survey_data = survey.valid_survey["survey_data"]
+        survey_doc_id = survey_data['survey_doc_id']
         # get the findings
         findings = survey.valid_survey['findings_data']
 
@@ -52,6 +55,7 @@ if __name__ == '__main__':
             finding.pop('id')
 
             finding['vessel_type'] = survey['vessel_data']['vessel_type']
+            finding['survey_doc_id'] = survey_doc_id
             defect = DefectSchema(**finding)
             findings_array.append(defect.dict())
 

@@ -15,6 +15,9 @@ class DefectSchema(BaseModel):
                                          description="The MongoDB id associated with the document",
                                          alias="_id")
 
+    survey_doc_id: str = Field(title="survey_doc_id",
+                               description="The survey document id that the finding is found")
+
     vessel_type: str = Field(title="vessel_type",
                              description="The vessel type the defect was found",)
 
