@@ -46,11 +46,6 @@ class ConditionSurveyValidatorPimpl(object):
             if validate_vessel_data != OK:
                 raise ValueError("Vessel data was not validated")
 
-            validate_engine = self._validate_engine()
-
-            if validate_engine != OK:
-                raise ValueError("Vessel engine was not validated")
-
             validate_survey_items_data = self._validate_survey_items_data()
 
             if validate_survey_items_data != OK:
@@ -116,20 +111,22 @@ class ConditionSurveyValidatorPimpl(object):
 
             for item in survey_dimensions:
 
-                if 'units' not in item:
-                    raise ValueError("'units' not in keys. Invalid format")
+                # if 'units' not in item:
+                #     raise ValueError("'units' not in keys. Invalid format")
+                #
+                # keys = list(item.keys())
+                # keys.remove("units")
+                #
+                # if len(keys) != 1:
+                #     raise ValueError(f"Unrecognised format for item in survey dimensions. Item was={item}")
 
-                keys = list(item.keys())
-                keys.remove("units")
-
-                if len(keys) != 1:
-                    raise ValueError(f"Unrecognised format for item in survey dimensions. Item was={item}")
-
-                dimensions.append(VesselDim(**{"metric": item["units"],
-                                               "name": keys[0],
-                                               "dimension": item[keys[0]]}))
-
-            vessel_data = VesselDataSchema(**{"vessel_dimensions": dimensions,
+                dimensions.append(VesselDim(**{"metric": item["metric"],
+                                               "name": item["name"],
+                                               "dimension": item["dimension"]}))
+            engine = self._validate_engine()
+            if engine is None:
+                return NOT_OK
+            vessel_data = VesselDataSchema(**{"dimensions": dimensions,
                                               "vessel_name": vessel_data["vessel_name"],
                                               "hull_material": vessel_data["hull_material"],
                                               "hin": vessel_data["hin"],
@@ -140,7 +137,8 @@ class ConditionSurveyValidatorPimpl(object):
                                               "survey_vessel_model": vessel_data["survey_vessel_model"],
                                               "ssr": vessel_data["ssr"],
                                               "max_n_persons": vessel_data["max_n_persons"],
-                                              "vessel_usage_type": vessel_data["vessel_usage_type"]})
+                                              "vessel_usage_type": vessel_data["vessel_usage_type"],
+                                              "engine": engine})
 
             self.valid_survey["vessel_data"] = vessel_data.dict()
             logger.info("Validating vessel_data.DONE")
@@ -149,7 +147,7 @@ class ConditionSurveyValidatorPimpl(object):
             logger.error(f"An error occurred whilst validating vessel data {str(e)}")
             return NOT_OK
 
-    def _validate_engine(self) -> Union[OK, NOT_OK]:
+    def _validate_engine(self) -> Engine:
 
         try:
             logger.info("Validating engine...")
@@ -178,12 +176,11 @@ class ConditionSurveyValidatorPimpl(object):
             vessel_engine = Engine(**{"number_of_engines": n_engines,
                                       "engines": engines})
 
-            self.valid_survey["vessel_engine"] = vessel_engine.dict()
             logger.info("Validating engine. DONE")
-            return OK
+            return vessel_engine
         except Exception as e:
             logger.error(f"An error occurred whilst validating engine {str(e)}")
-            return NOT_OK
+            return None
 
     def _validate_findings(self):
 

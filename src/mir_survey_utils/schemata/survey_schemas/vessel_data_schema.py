@@ -1,6 +1,8 @@
 from pydantic import BaseModel, Field, PositiveInt
 from typing import List, Union
 
+from src.mir_survey_utils.schemata.survey_schemas.engine_data_schema import Engine
+
 
 class VesselDim(BaseModel):
     name: str = Field(title="name")
@@ -20,4 +22,5 @@ class VesselDataSchema(BaseModel):
     ssr: Union[str, None] = Field(title="ssr")
     max_n_persons: Union[PositiveInt, None] = Field(title="max_n_persons")
     vessel_usage_type: str = Field(title="vessel_usage_type")
-    vessel_dimensions: List[VesselDim] = Field(title="vessel_dimensions")
+    dimensions: List[VesselDim] = Field(title="dimensions")
+    engine: Engine = Field(title="engine")

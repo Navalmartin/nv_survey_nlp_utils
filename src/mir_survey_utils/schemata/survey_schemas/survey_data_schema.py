@@ -3,7 +3,7 @@ from typing import List, Union
 
 
 class SeverityScale(BaseModel):
-    name: str = Field(title="name")
+    type: str = Field(title="type", alias="name")
     explanation: str = Field(title="explanation")
 
 

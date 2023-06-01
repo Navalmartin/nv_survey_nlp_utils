@@ -11,8 +11,8 @@ from src.mir_survey_utils.schemata.db_schemas.defect_schema import DefectSchema
 from src.mir_survey_utils.survey_validators.condition_survey_validator import ConditionSurveyValidator
 
 
-DOTENV_PATH = Path("/home/alex/qi3/dotenvs/.env")
-SURVEY_JSON_DOC = Path("/home/alex/qi3/mir_datasets/surveys/cleaned/catsample.json")
+DOTENV_PATH = Path("../../.env")
+SURVEY_JSON_DOC = Path("../../data/json_files/cleaned/FYS_SURVEY_REPORT_Hallberg_Rassy_42_issue_1.json")
 
 #SURVEY_JSON_DOC = Path("/home/alex/qi3/mir_datasets/surveys/cleaned/FYS_SURVEY_REPORT_Fountaine-Pajot-Maldives-32_issue_1.json")
 #SURVEY_JSON_DOC = Path("/home/alex/qi3/mir_datasets/surveys/cleaned/FYS_SURVEY_REPORT_HIRONDELLE_MK2_issue_1.json")
@@ -59,8 +59,8 @@ if __name__ == '__main__':
             defect = DefectSchema(**finding)
             findings_array.append(defect.dict())
 
-        response = asyncio.run(insert_findings(findings, db_session=db_session))
-        logger.info(f"Insert response={response}")
+        # response = asyncio.run(insert_findings(findings, db_session=db_session))
+        # logger.info(f"Insert response={response}")
     except Exception as e:
         logger.error(f"An error occurred whilst inserting survey {SURVEY_JSON_DOC}")
 
