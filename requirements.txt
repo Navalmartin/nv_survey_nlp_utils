@@ -1,0 +1,5 @@
+python-dotenv
+navalmartin_mir_db_utils
+loguru
+pydantic
+motor
