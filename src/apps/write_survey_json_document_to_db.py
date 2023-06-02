@@ -12,10 +12,16 @@ from src.mir_survey_utils.survey_validators.condition_survey_validator import Co
 
 
 DOTENV_PATH = Path("../../.env")
-SURVEY_JSON_DOC = Path("../../data/json_files/cleaned/FYS_SURVEY_REPORT_Hallberg_Rassy_42_issue_1.json")
+#SURVEY_JSON_DOC = Path("../../data/json_files/cleaned/FYS_SURVEY_REPORT_Hallberg_Rassy_42_issue_1.json")
 
 #SURVEY_JSON_DOC = Path("/home/alex/qi3/mir_datasets/surveys/cleaned/FYS_SURVEY_REPORT_Fountaine-Pajot-Maldives-32_issue_1.json")
 #SURVEY_JSON_DOC = Path("/home/alex/qi3/mir_datasets/surveys/cleaned/FYS_SURVEY_REPORT_HIRONDELLE_MK2_issue_1.json")
+
+SURVEY_FILENAME = "atlanta.json"
+ALIGNED_PATH = Path("/home/alex/qi3/mir_datasets/surveys/aligned")
+CLEANED_PATH = Path("/home/alex/qi3/mir_datasets/surveys/cleaned")
+
+SURVEY_JSON_DOC = ALIGNED_PATH / SURVEY_FILENAME
 
 
 async def insert_findings(findings: List, db_session: MongoDBSession):
@@ -27,7 +33,6 @@ async def insert_findings(findings: List, db_session: MongoDBSession):
 
 
 if __name__ == '__main__':
-
 
     try:
         dotenv.load_dotenv(DOTENV_PATH)
@@ -61,6 +66,10 @@ if __name__ == '__main__':
 
         # response = asyncio.run(insert_findings(findings, db_session=db_session))
         # logger.info(f"Insert response={response}")
+
+        # save the cleaned survey
+        filename = survey.filename
+        survey.save(filename=ALIGNED_PATH / f"{filename}")
     except Exception as e:
         logger.error(f"An error occurred whilst inserting survey {SURVEY_JSON_DOC}")
 

@@ -16,9 +16,19 @@ from src.mir_survey_utils.survey_transformers.findings_transformers import (
     remove_property,
 )
 
+
+ALIGNED_PATH = Path("/home/alex/qi3/mir_datasets/surveys/aligned")
+
 if __name__ == "__main__":
+
+
+    #survey_path = Path(
+    #    "../../data/json_files/preprocessed/FYS_SURVEY_REPORT_Hallberg_Rassy_42_issue_1.json"
+    #)
+
     survey_path = Path(
-        "../../data/json_files/preprocessed/FYS_SURVEY_REPORT_Hallberg_Rassy_42_issue_1.json"
+        #"/home/alex/qi3/mir_datasets/surveys/preprocessed/atlanta.json"
+        "/home/alex/qi3/mir_datasets/surveys/preprocessed/coldsample.json"
     )
 
     survey = ConditionSurveyValidator(survey_json_doc=survey_path, validate=True)
@@ -26,7 +36,7 @@ if __name__ == "__main__":
     logger.info(f"Survey {survey_path} is valid={survey.is_valid}")
 
     checkpoint_to_survey_item_map = build_checkpoint_to_survey_item_map(
-        path_to_checkpoints=Path("../../data/json_files/mir_json_files")
+        path_to_checkpoints=Path("/home/alex/qi3/mir_datasets/surveys/checkpoint_json_files")
     )
 
     print(checkpoint_to_survey_item_map)
@@ -59,23 +69,29 @@ if __name__ == "__main__":
             "EXHAUST_SYSTEM": "ENGINE_EXHAUST",
             "FILTER/FUEL_CONDITION": "FUEL_FILTER",
             "CHARGING_SYSTEM_(ALTERNATOR)": "CHARGING_SYSTEM_ALTERNATOR",
+            "CHARGING SYSTEM (BATTERY CHARGER)": "BATTERY_CHARGER",
             "RUDDER(S)_MATERIAL": "RUDDER",
             "SPREADERS": "MAST_MAST_BEND",
             "HOSES_AND_CLAMPS": "HOSE_CLAMPS",
+            "HOSES,_CLAMPS_AND_CONNECTORS": "HOSE_CLAMPS",
             "RUDDER_&_STEERING": "RUDDER",
             "CHAIN_LOCKER_&_BULKHEAD": "CHAIN_LOCKER_BULKHEAD",
             "HATCHES,_WINDOWS_&_VENTILATION": "HATCHES_WINDOWS_VENTILATION",
             "BAILING_/_BILGE_PUMPING": "BAILING_BILGE_PUMPING",
             "ANCHOR_CHAIN_LOCKERS_&_BULKHEADS": "CHAIN_LOCKER_BULKHEAD",
             "ANCHOR_AND_CHAIN": "ANCHOR",
+            "PROPELLER(S)": "PROPELLER",
+            "SAT_PHONE": "SATCOM",
+            "SHAFT_BEARING_(CUTTLESS_BEARING)": "SHAFT_BEARING"
+
         },
     )
 
-    updated = remove_findings(
-        survey, checkpoint_items=["OTHER"], checkpoint_ids=[8, 22]
-    )
+    #updated = remove_findings(
+    #    survey, checkpoint_items=["OTHER"], checkpoint_ids=[8, 22]
+    #)
 
-    logger.info(f"Removed {updated} findings")
+    #logger.info(f"Removed {updated} findings")
 
     not_found = set_checkpoint_group_to_mir_type(
         survey, checkpoint_group_map=checkpoint_to_survey_item_map
@@ -85,11 +101,11 @@ if __name__ == "__main__":
         logger.warning(
             f"Couldn't find mir survey item for {len(not_found)} checkpoints"
         )
-        logger.warning(not_found)
 
-        set_checkpoint_item_to_checkpoint_group(
-            survey=survey,
-            checkpoint_item_to_checkpoint_group={
+        logger.warning(f"Checkpoints not found {not_found}")
+        logger.warning("Attempting to align these...")
+
+        checkpoint_item_to_checkpoint_group={
                 "OIL_COOLERS": "PROPULSION_MACHINERY",
                 "ENGINE_EXHAUST": "THROUGH_HULL_FITTINGS",
                 "ANCHORS": "DECK_EQUIPMENT",
@@ -102,6 +118,7 @@ if __name__ == "__main__":
                 "FUEL_FILTER": "PROPULSION_MACHINERY",
                 "BATTERIES": "ELECTRICAL_AND_ELECTRONICS",
                 "CHARGING_SYSTEM_ALTERNATOR": "ELECTRICAL_AND_ELECTRONICS",
+                "BATTERY_CHARGER": "ELECTRICAL_AND_ELECTRONICS",
                 "RUDDER": "STEERING",
                 "MAST_STEP": "RIG_AND_SAILS",
                 "DODGER": "DECK_EQUIPMENT",
@@ -122,11 +139,40 @@ if __name__ == "__main__":
                 "NAVIGATION_LIGHTS": "ELECTRICAL_AND_ELECTRONICS",
                 "BAILING_BILGE_PUMPING": "BILGE_PUMPS",
                 "FRESH_WATER_SYSTEM": "DOMESTIC_EQUIPMENT",
-            },
+                "BLACK_WATER_TANK": "DOMESTIC_EQUIPMENT",
+                "ANODES": "CATHODIC_PROTECTION",
+                "COCKPIT":"DECK_EQUIPMENT",
+                "HULL_INTERNAL_STRUCTURE": "HULL_SHELL",
+                "PROPELLER": "PROPULSION_MACHINERY",
+                "CHARGING_SYSTEM_(BATTERY_CHARGER)": "ELECTRICAL_AND_ELECTRONICS",
+                "TELEVISION(S)": "DOMESTIC_EQUIPMENT",
+                "SAT_PHONE": "ELECTRICAL_AND_ELECTRONICS",
+                "ENGINE_SYNCHRONIZER": "PROPULSION_MACHINERY",
+                "FREEZER": "DOMESTIC_EQUIPMENT",
+                "SEA_WATER_ICE_MAKER": "DOMESTIC_EQUIPMENT",
+                "BILGE": "BILGE_PUMPS",
+                "SHAFT_BEARING":"PROPULSION_MACHINERY"
+            }
+
+        counter = 0
+        not_aligned = []
+        for item in not_found:
+            if item in checkpoint_item_to_checkpoint_group:
+                counter += 1
+            else:
+                not_aligned.append(item)
+
+        logger.warning(f"Script will align {counter} checkpoints to survey items")
+        logger.warning(f"Not aligned checkpoints: {not_aligned}")
+        set_checkpoint_item_to_checkpoint_group(
+            survey=survey,
+            checkpoint_item_to_checkpoint_group=checkpoint_item_to_checkpoint_group,
         )
+
+        logger.warning(f"Could not align {len(not_found) - counter} checkpoints to survey items")
     else:
         logger.info("All checkpoints have been identified")
 
     # save the valid survey
     filename = survey.filename
-    survey.save(filename=Path(f"../../data/json_files/cleaned/{filename}"))
+    survey.save(filename=ALIGNED_PATH / f"{filename}")

@@ -111,15 +111,6 @@ class ConditionSurveyValidatorPimpl(object):
 
             for item in survey_dimensions:
 
-                # if 'units' not in item:
-                #     raise ValueError("'units' not in keys. Invalid format")
-                #
-                # keys = list(item.keys())
-                # keys.remove("units")
-                #
-                # if len(keys) != 1:
-                #     raise ValueError(f"Unrecognised format for item in survey dimensions. Item was={item}")
-
                 dimensions.append(VesselDim(**{"metric": item["metric"],
                                                "name": item["name"],
                                                "dimension": item["dimension"]}))
