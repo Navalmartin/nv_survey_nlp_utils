@@ -6,7 +6,7 @@ from src.mir_survey_utils.survey_transformers.findings_transformers import (trim
                                                                             set_checkpoint_group_to_mir_type,
                                                                             replace_findings_severity,
                                                                             set_checkpoint_item_to_checkpoint_group,
-                                                                            replace_checkpoint_group_name,
+                                                                            replace_checkpoint_item_name,
                                                                             remove_findings,
                                                                             remove_property)
 
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     updated = replace_findings_severity(survey=survey, old_severity_value="ACCEPTABLE", new_severity_value="MINOR")
     logger.info(f"Updated {updated} severity levels")
 
-    replace_checkpoint_group_name(survey, checkpoint_group_name={'ANCHORS': 'ANCHOR',
+    replace_checkpoint_item_name(survey, checkpoint_group_name={'ANCHORS': 'ANCHOR',
                                                                  'CONDITION': 'SEACOCK',
                                                                  'CHAIN_LOCKER_(DRAINAGE)': 'CHAIN_LOCKER_DRAIN',
                                                                  'EXHAUST_SYSTEM': 'ENGINE_EXHAUST',
@@ -50,11 +50,11 @@ if __name__ == '__main__':
                                                                  'HOSES_AND_CLAMPS': 'HOSE_CLAMPS',
                                                                  'RUDDER_&_STEERING':'RUDDER',
                                                                  'CHAIN_LOCKER_&_BULKHEAD': 'CHAIN_LOCKER_BULKHEAD',
-                                                                 'HATCHES,_WINDOWS_&_VENTILATION':'HATCHES_WINDOWS_VENTILATION',
-                                                                 'BAILING_/_BILGE_PUMPING':'BAILING_BILGE_PUMPING',
-                                                                 'ANCHOR_CHAIN_LOCKERS_&_BULKHEADS':'CHAIN_LOCKER_BULKHEAD',
-                                                                 'ANCHOR_AND_CHAIN': 'ANCHOR',
-                                                                 })
+                                                                'HATCHES,_WINDOWS_&_VENTILATION':'HATCHES_WINDOWS_VENTILATION',
+                                                                'BAILING_/_BILGE_PUMPING':'BAILING_BILGE_PUMPING',
+                                                                'ANCHOR_CHAIN_LOCKERS_&_BULKHEADS':'CHAIN_LOCKER_BULKHEAD',
+                                                                'ANCHOR_AND_CHAIN': 'ANCHOR',
+                                                                })
 
     updated = remove_findings(survey,
                               checkpoint_items=['OTHER'],

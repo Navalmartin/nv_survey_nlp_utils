@@ -11,7 +11,7 @@ from src.mir_survey_utils.survey_transformers.findings_transformers import (
     set_checkpoint_group_to_mir_type,
     replace_findings_severity,
     set_checkpoint_item_to_checkpoint_group,
-    replace_checkpoint_group_name,
+    replace_checkpoint_item_name,
     remove_findings,
     remove_property,
 )
@@ -47,6 +47,34 @@ if __name__ == "__main__":
     updated = remove_property(survey, property_name="subtype")
     logger.info(f"Remove attribute 'subtype' from {updated} findings")
 
+    # replace the checkpoint item name
+    # with the specified name
+    replace_checkpoint_item_name(
+        survey,
+        checkpoint_group_name={
+            "ANCHORS": "ANCHOR",
+            "CONDITION": "SEACOCK",
+            "CHAIN LOCKER (DRAINAGE)": "CHAIN_LOCKER_DRAIN",
+            "EXHAUST SYSTEM": "ENGINE_EXHAUST",
+            "FILTER/FUEL CONDITION": "FUEL_FILTER",
+            "CHARGING SYSTEM (ALTERNATOR)": "CHARGING_SYSTEM_ALTERNATOR",
+            "CHARGING SYSTEM (BATTERY CHARGER)": "BATTERY_CHARGER",
+            "RUDDER(S) MATERIAL": "RUDDER",
+            "SPREADERS": "MAST_MAST_BEND",
+            "HOSES AND CLAMPS": "HOSE_CLAMPS",
+            "HOSES, CLAMPS AND CONNECTORS": "HOSE_CLAMPS",
+            "RUDDER & STEERING": "RUDDER",
+            "CHAIN LOCKER & BULKHEAD": "CHAIN_LOCKER_BULKHEAD",
+            "HATCHES, WINDOWS & VENTILATION": "HATCHES_WINDOWS_VENTILATION",
+            "BAILING / BILGE_PUMPING": "BAILING_BILGE_PUMPING",
+            "ANCHOR CHAIN LOCKERS & BULKHEADS": "CHAIN_LOCKER_BULKHEAD",
+            "ANCHOR AND CHAIN": "ANCHOR",
+            "PROPELLER(S)": "PROPELLER",
+            "SAT PHONE": "SATCOM",
+            "SHAFT BEARING (CUTTLESS BEARING)": "SHAFT_BEARING"
+        },
+    )
+
     # apply transformations to the valid survey
     trim_finding_properties(
         survey, finding_properties=["checkpoint_item", "checkpoint_group"]
@@ -60,32 +88,7 @@ if __name__ == "__main__":
     )
     logger.info(f"Updated {updated} severity levels")
 
-    replace_checkpoint_group_name(
-        survey,
-        checkpoint_group_name={
-            "ANCHORS": "ANCHOR",
-            "CONDITION": "SEACOCK",
-            "CHAIN_LOCKER_(DRAINAGE)": "CHAIN_LOCKER_DRAIN",
-            "EXHAUST_SYSTEM": "ENGINE_EXHAUST",
-            "FILTER/FUEL_CONDITION": "FUEL_FILTER",
-            "CHARGING_SYSTEM_(ALTERNATOR)": "CHARGING_SYSTEM_ALTERNATOR",
-            "CHARGING SYSTEM (BATTERY CHARGER)": "BATTERY_CHARGER",
-            "RUDDER(S)_MATERIAL": "RUDDER",
-            "SPREADERS": "MAST_MAST_BEND",
-            "HOSES_AND_CLAMPS": "HOSE_CLAMPS",
-            "HOSES,_CLAMPS_AND_CONNECTORS": "HOSE_CLAMPS",
-            "RUDDER_&_STEERING": "RUDDER",
-            "CHAIN_LOCKER_&_BULKHEAD": "CHAIN_LOCKER_BULKHEAD",
-            "HATCHES,_WINDOWS_&_VENTILATION": "HATCHES_WINDOWS_VENTILATION",
-            "BAILING_/_BILGE_PUMPING": "BAILING_BILGE_PUMPING",
-            "ANCHOR_CHAIN_LOCKERS_&_BULKHEADS": "CHAIN_LOCKER_BULKHEAD",
-            "ANCHOR_AND_CHAIN": "ANCHOR",
-            "PROPELLER(S)": "PROPELLER",
-            "SAT_PHONE": "SATCOM",
-            "SHAFT_BEARING_(CUTTLESS_BEARING)": "SHAFT_BEARING"
 
-        },
-    )
 
     #updated = remove_findings(
     #    survey, checkpoint_items=["OTHER"], checkpoint_ids=[8, 22]
@@ -151,7 +154,8 @@ if __name__ == "__main__":
                 "FREEZER": "DOMESTIC_EQUIPMENT",
                 "SEA_WATER_ICE_MAKER": "DOMESTIC_EQUIPMENT",
                 "BILGE": "BILGE_PUMPS",
-                "SHAFT_BEARING":"PROPULSION_MACHINERY"
+                "SHAFT_BEARING": "PROPULSION_MACHINERY",
+                "SHORE_POWER_INLET": "ELECTRICAL_AND_ELECTRONICS"
             }
 
         counter = 0

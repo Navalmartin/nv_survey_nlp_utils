@@ -58,8 +58,8 @@ def set_checkpoint_group_to_mir_type(survey: ConditionSurveyValidator,
     return not_found
 
 
-def replace_checkpoint_group_name(survey: ConditionSurveyValidator,
-                                  checkpoint_group_name: dict) -> int:
+def replace_checkpoint_item_name(survey: ConditionSurveyValidator,
+                                 checkpoint_group_name: dict) -> int:
     survey_findings = survey.valid_survey['findings_data']
 
     updated = 0
