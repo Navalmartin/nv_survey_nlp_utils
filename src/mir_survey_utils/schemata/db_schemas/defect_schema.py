@@ -66,6 +66,9 @@ class DefectSchema(BaseModel):
         alias="severity"
     )
 
+    defect_degree: Union[str, float, int, None] = Field(title="defect_degree",
+                                                        description="A specification of the degree of the defect found")
+
     recommendation_description: str = Field(title="recommendation_description",
                                             description="The recommendation associated with the defect",
                                             default=InvalidTypeEnum.INVALID.name.upper(),
@@ -101,6 +104,7 @@ class DefectSchema(BaseModel):
         description="Time and date the particular entry was created (UTC)",
         default=datetime.utcnow(),
     )
+    
     updated_at: Any = Field(
         title="updated_at",
         description="Time and date the particular entry was updated (UTC)",
@@ -114,5 +118,6 @@ class DefectSchema(BaseModel):
         indexes = ["_id", ]
         json_encoders = {
             bson.ObjectId: str,
+            Any: str
         }
         extra = Extra.forbid

@@ -19,7 +19,7 @@ def trim_finding_properties(survey: ConditionSurveyValidator,
     survey_findings = survey.valid_survey['findings_data']
 
     for i, finding in enumerate(survey_findings):
-
+        #print(finding['id'])
         for finding_property in finding_properties:
             attr = finding[finding_property]
 

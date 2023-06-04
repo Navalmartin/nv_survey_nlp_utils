@@ -157,8 +157,8 @@ class ConditionSurveyValidatorPimpl(object):
 
             engines: List[EngineEntry] = []
 
-            for engine in engine['engines']:
-                engines.append(EngineEntry(**engine))
+            for engine_item in engine['engines']:
+                engines.append(EngineEntry(**engine_item))
 
             if len(engines) != n_engines:
                 raise ValueError(f"The specified number of engines {n_engines} does "

@@ -14,3 +14,5 @@ class FindingDataSchema(BaseModel):
     description: Union[str, None] = Field(title="description")
     severity: str = Field(title="severity")
     comment_on_severity: Union[str, None] = Field(title="comment_on_severity")
+    defect_degree: Union[str, float, int, None] = Field(title="defect_degree",
+                                                        description="A specification of the degree of the defect found")
