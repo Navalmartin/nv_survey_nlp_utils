@@ -20,7 +20,8 @@ DOTENV_PATH = Path("/home/alex/qi3/dotenvs/.env")
 #SURVEY_FILENAME = "atlanta.json"
 #SURVEY_FILENAME = "regal_commodore_272.json"
 #SURVEY_FILENAME = "sample_carver_310_survey.json"
-SURVEY_FILENAME = "sample_silverton_410_survey.json"
+#SURVEY_FILENAME = "sample_silverton_410_survey.json"
+SURVEY_FILENAME = "FYS_SURVEY_REPORT_MOODY_29_issue_1.json"
 
 ALIGNED_PATH = Path("/home/alex/qi3/mir_datasets/surveys/aligned")
 CLEANED_PATH = Path("/home/alex/qi3/mir_datasets/surveys/cleaned")
