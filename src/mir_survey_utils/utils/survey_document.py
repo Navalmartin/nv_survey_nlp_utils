@@ -5,7 +5,7 @@ import fitz
 from .survey_page import Page
 from .survey_section import ServeySection
 from .survey_type_enum import SurveyTypeEnum
-from .eda_utils import get_section_text
+from .file_utils import get_section_text
 from .search_utils import DROP_WORDS_FOR_CONTENTS_SEARCH
 
 
