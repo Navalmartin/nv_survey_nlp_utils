@@ -27,6 +27,7 @@ def trim_finding_properties(survey: ConditionSurveyValidator,
                 attr = attr.upper()
                 attr = attr.lstrip()
                 attr = attr.rstrip()
+                attr = attr.replace("&", "AND")
                 attr = attr.replace(" ", "_")
                 finding[finding_property] = attr
                 survey_findings[i] = finding
