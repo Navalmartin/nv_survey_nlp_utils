@@ -16,13 +16,11 @@ from src.mir_survey_utils.survey_transformers.findings_transformers import (
     remove_property,
 )
 
-ALIGNED_PATH = Path("/home/alex/qi3/mir_datasets/surveys/aligned")
+ALIGNED_PATH = Path("../../data/json_files/aligned")
 
 if __name__ == "__main__":
 
-    # survey_path = Path(
-    #    "../../data/json_files/preprocessed/FYS_SURVEY_REPORT_Hallberg_Rassy_42_issue_1.json"
-    # )
+
 
     survey_path = Path(
         #"/home/alex/qi3/mir_datasets/surveys/preprocessed/atlanta.json"
@@ -50,7 +48,7 @@ if __name__ == "__main__":
     logger.info(f"Survey {survey_path} is valid={survey.is_valid}")
 
     checkpoint_to_survey_item_map = build_checkpoint_to_survey_item_map(
-        path_to_checkpoints=Path("/home/alex/qi3/mir_datasets/surveys/checkpoint_json_files")
+        path_to_checkpoints=Path("../../data/json_files/mir_json_files")
     )
 
     print(checkpoint_to_survey_item_map)
@@ -86,6 +84,7 @@ if __name__ == "__main__":
             "PROPELLER(S)": "PROPELLER",
             "SAT PHONE": "SATCOM",
             "SHAFT BEARING (CUTTLESS BEARING)": "SHAFT_BEARING",
+            "LIFERAFT": "LIFE_RAFTS_AND_RELEASE"
 
         },
     )
