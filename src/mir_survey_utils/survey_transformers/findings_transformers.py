@@ -154,6 +154,10 @@ def remove_property(survey: ConditionSurveyValidator,
     return updated
 
 
+def rename():
+    pass
+
+
 
 
 

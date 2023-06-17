@@ -32,7 +32,16 @@ if __name__ == "__main__":
         #"/home/alex/qi3/mir_datasets/surveys/preprocessed/FYS_SURVEY_REPORT_HIRONDELLE_MK2_issue_1.json"
         #"/home/alex/qi3/mir_datasets/surveys/preprocessed/regal_commodore_272.json"
         #"/home/alex/qi3/mir_datasets/surveys/preprocessed/sample_carver_310_survey.json"
-        "/home/alex/qi3/mir_datasets/surveys/preprocessed/sample_silverton_410_survey.json"
+        #"/home/alex/qi3/mir_datasets/surveys/preprocessed/sample_silverton_410_survey.json"
+        #"/home/alex/qi3/mir_datasets/surveys/preprocessed/sample_sundower_30_trawler_survey.json"
+        #"/home/alex/qi3/mir_datasets/surveys/preprocessed/alternative_mes_report.json"
+        #"/home/alex/qi3/mir_datasets/surveys/preprocessed/FYS_SURVEY_REPORT_Westerly_Longbow_issue_1.json"
+        #"/home/alex/qi3/mir_datasets/surveys/preprocessed/FYS_SURVEY_REPORT_Southerly_100_issue_1.json"
+        #"/home/alex/qi3/mir_datasets/surveys/preprocessed/FYS_SURVEY_REPORT_SIGMA_362_issue_1.json"
+        #"/home/alex/qi3/mir_datasets/surveys/preprocessed/FYS-REPORT-Beneteau-435E-issue-1.json"
+        #"/home/alex/qi3/mir_datasets/surveys/preprocessed/FYS_SURVEY_REPORT_Hallberg_Rassy_42_issue_1.json"
+        #"/home/alex/qi3/mir_datasets/surveys/preprocessed/FYS_SURVEY_REPORT_MOODY_35_issue_1.json"
+        "/home/alex/qi3/mir_datasets/surveys/preprocessed/PASS_FYS_SURVEY_REPORT_Ketch-rigged_Carvel_Hull_issue_1.json"
     )
 
     logger.info(f"Reading survey from {survey_path}")
@@ -195,7 +204,9 @@ if __name__ == "__main__":
             "BATTERY_SWITCHES": "ELECTRICAL_AND_ELECTRONICS",
             "ENTERTAINMENT": "DOMESTIC_EQUIPMENT",
             "POTABLE_WATER": "DOMESTIC_EQUIPMENT",
-            "HEAT_EXCHANGER":"DOMESTIC_EQUIPMENT"
+            "HEAT_EXCHANGER":"DOMESTIC_EQUIPMENT",
+            "FUEL_TANK": "PROPULSION_MACHINERY",
+            "FUEL_TANK_FILLER": "PROPULSION_MACHINERY"
 
         }
 
@@ -220,4 +231,4 @@ if __name__ == "__main__":
 
     # save the valid survey
     filename = survey.filename
-    survey.save(filename=ALIGNED_PATH / f"{filename}")
+    #survey.save(filename=ALIGNED_PATH / f"{filename}")

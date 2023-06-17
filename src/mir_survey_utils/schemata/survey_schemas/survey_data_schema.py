@@ -11,5 +11,5 @@ class SurveyDataSchema(BaseModel):
     survey_doc_id: str = Field(title="survey_doc_id")
     survey_type: str = Field(title="survey_type")
     survey_summary: Union[str, None] = Field(title="survey_summary")
-    survey_purpose: str = Field(title="survey_purpose")
+    survey_purpose: Union[str, None] = Field(title="survey_purpose")
     severity_scales: Union[List[SeverityScale], None] = Field(title="severity_scales")

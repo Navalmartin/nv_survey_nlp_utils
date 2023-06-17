@@ -76,16 +76,17 @@ class ConditionSurveyValidatorPimpl(object):
             severity_scales = survey_data["severity_scales"]
             severity_scales_arr: List[SeverityScale] = []
 
-            for item in severity_scales:
+            if severity_scales is not None:
+                for item in severity_scales:
 
-                if 'type' not in item:
-                    raise ValueError("'type' not in keys. Invalid format")
+                    if 'type' not in item:
+                        raise ValueError("'type' not in keys. Invalid format")
 
-                if 'explanation' not in item:
-                    raise ValueError("'explanation' not in keys. Invalid format")
+                    if 'explanation' not in item:
+                        raise ValueError("'explanation' not in keys. Invalid format")
 
-                severity_scales_arr.append(SeverityScale(**{"name": item["type"],
-                                                            "explanation": item["explanation"]}))
+                    severity_scales_arr.append(SeverityScale(**{"name": item["type"],
+                                                                "explanation": item["explanation"]}))
 
             survey_data = SurveyDataSchema(**{"severity_scales": severity_scales_arr,
                                               "survey_doc_id": survey_data["survey_doc_id"],
