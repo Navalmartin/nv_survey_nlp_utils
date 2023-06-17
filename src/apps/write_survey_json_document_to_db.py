@@ -34,7 +34,8 @@ docs = ["FYS_SURVEY_REPORT_MOODY_29_issue_1.json",
         "FYS_SURVEY_REPORT_HIRONDELLE_MK2_issue_1.json"]
 """
 
-docs = ["PASS_FYS_SURVEY_REPORT_Ketch-rigged_Carvel_Hull_issue_1.json"
+docs = ["NM136-R01_Rev_A_SALADIN_20141219.json"
+        #"PASS_FYS_SURVEY_REPORT_Ketch-rigged_Carvel_Hull_issue_1.json"
         #"FYS_SURVEY_REPORT_MOODY_35_issue_1.json"
         #"FYS_SURVEY_REPORT_Hallberg_Rassy_42_issue_1.json"
         #"FYS-REPORT-Beneteau-435E-issue-1.json"

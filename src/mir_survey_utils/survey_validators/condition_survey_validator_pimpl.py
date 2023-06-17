@@ -153,7 +153,7 @@ class ConditionSurveyValidatorPimpl(object):
             # how many engines we have
             n_engines = engine['number_of_engines']
 
-            if n_engines <= 0:
+            if n_engines < 0:
                 raise ValueError(f"Document has zero number of engines")
 
             engines: List[EngineEntry] = []
@@ -171,7 +171,7 @@ class ConditionSurveyValidatorPimpl(object):
             logger.info("Validating engine. DONE")
             return vessel_engine
         except Exception as e:
-            logger.error(f"An error occurred whilst validating engine {str(e)}")
+            logger.error(f"An error occurred whilst validating engine: {str(e)}")
             return None
 
     def _validate_findings(self):

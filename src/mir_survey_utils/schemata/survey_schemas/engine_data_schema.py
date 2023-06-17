@@ -33,7 +33,7 @@ class EngineEntry(BaseModel):
 
 
 class Engine(BaseModel):
-    number_of_engines: PositiveInt = Field(
+    number_of_engines: int = Field(
         title="number_of_engines",
         description="The total number of engines"
     )

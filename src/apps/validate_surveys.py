@@ -16,10 +16,9 @@ from src.mir_survey_utils.survey_transformers.findings_transformers import (
     remove_property,
 )
 
-ALIGNED_PATH = Path("../../data/json_files/aligned")
+ALIGNED_PATH = Path("/home/alex/qi3/mir_datasets/surveys/aligned")
 
 if __name__ == "__main__":
-
 
 
     survey_path = Path(
@@ -39,7 +38,8 @@ if __name__ == "__main__":
         #"/home/alex/qi3/mir_datasets/surveys/preprocessed/FYS-REPORT-Beneteau-435E-issue-1.json"
         #"/home/alex/qi3/mir_datasets/surveys/preprocessed/FYS_SURVEY_REPORT_Hallberg_Rassy_42_issue_1.json"
         #"/home/alex/qi3/mir_datasets/surveys/preprocessed/FYS_SURVEY_REPORT_MOODY_35_issue_1.json"
-        "/home/alex/qi3/mir_datasets/surveys/preprocessed/PASS_FYS_SURVEY_REPORT_Ketch-rigged_Carvel_Hull_issue_1.json"
+        #"/home/alex/qi3/mir_datasets/surveys/preprocessed/PASS_FYS_SURVEY_REPORT_Ketch-rigged_Carvel_Hull_issue_1.json"
+        "/home/alex/qi3/mir_datasets/surveys/preprocessed/NM136-R01_Rev_A_SALADIN_20141219.json"
     )
 
     logger.info(f"Reading survey from {survey_path}")
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     logger.info(f"Survey {survey_path} is valid={survey.is_valid}")
 
     checkpoint_to_survey_item_map = build_checkpoint_to_survey_item_map(
-        path_to_checkpoints=Path("../../data/json_files/mir_json_files")
+        path_to_checkpoints=Path("../../data/mir_json_files")
     )
 
     print(checkpoint_to_survey_item_map)
@@ -230,4 +230,4 @@ if __name__ == "__main__":
 
     # save the valid survey
     filename = survey.filename
-    #survey.save(filename=ALIGNED_PATH / f"{filename}")
+    survey.save(filename=ALIGNED_PATH / f"{filename}")
