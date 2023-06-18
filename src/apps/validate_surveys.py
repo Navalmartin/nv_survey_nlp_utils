@@ -39,7 +39,8 @@ if __name__ == "__main__":
         #"/home/alex/qi3/mir_datasets/surveys/preprocessed/FYS_SURVEY_REPORT_Hallberg_Rassy_42_issue_1.json"
         #"/home/alex/qi3/mir_datasets/surveys/preprocessed/FYS_SURVEY_REPORT_MOODY_35_issue_1.json"
         #"/home/alex/qi3/mir_datasets/surveys/preprocessed/PASS_FYS_SURVEY_REPORT_Ketch-rigged_Carvel_Hull_issue_1.json"
-        "/home/alex/qi3/mir_datasets/surveys/preprocessed/NM136-R01_Rev_A_SALADIN_20141219.json"
+        #"/home/alex/qi3/mir_datasets/surveys/preprocessed/NM136-R01_Rev_A_SALADIN_20141219.json"
+        "/home/alex/qi3/mir_datasets/surveys/preprocessed/NM136-R02_Rev_A_SALADIN_20191128DC_signed.json"
     )
 
     logger.info(f"Reading survey from {survey_path}")

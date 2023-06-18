@@ -150,9 +150,9 @@ def get_finding_recommendation_map(defects: List) -> Dict:
     return recommendation_map
 
 
-def get_defects_counter(defects: List) -> Dict:
+def get_defects_label_counter(defects: List) -> Dict:
     """Get a map with the defect label and how many times
-    this defect has occured
+    this defect has occurred
 
     Parameters
     ----------
@@ -174,6 +174,72 @@ def get_defects_counter(defects: List) -> Dict:
                 counter_map[dl] = 1
 
     return counter_map
+
+
+def get_defect_severity_counter(defects: List[Dict]) -> Dict:
+    """Returns a dictionary with the counter of the
+    defect degree
+
+    Parameters
+    ----------
+    defects
+
+    Returns
+    -------
+
+    """
+
+    counter_map = {'HIGH': 0,
+                   'MODERATE': 0,
+                   'MINOR': 0}
+
+    for item in defects:
+        defect_degree = item['defect_degree']
+
+        counter_map[defect_degree] += 1
+
+    return counter_map
+
+
+def get_vessel_type_counter(defects: List[Dict]) -> Dict:
+
+
+    survey_to_vessel_type_map = {}
+    for defect in defects:
+
+        vessel_type = defect['vessel_type']
+        survey_doc_id = defect['survey_doc_id']
+
+        if survey_doc_id in survey_to_vessel_type_map:
+            continue
+
+        survey_to_vessel_type_map[survey_doc_id] = vessel_type
+
+    single_hull_counter = 0
+    catamaran_counter = 0
+    trimaran_counter = 0
+    rib_counter = 0
+
+    for survey_doc in survey_to_vessel_type_map:
+        vessel_type = survey_to_vessel_type_map[survey_doc]
+
+        if vessel_type == 'single_hull' or vessel_type == 'single hull':
+            single_hull_counter += 1
+
+        elif vessel_type == 'catamaran':
+            catamaran_counter += 1
+
+        elif vessel_type == 'trimaran':
+            trimaran_counter += 1
+
+        elif vessel_type == 'rib':
+            rib_counter += 1
+
+        else:
+            print(vessel_type)
+
+    return {'single_hull': single_hull_counter, 'catamaran': catamaran_counter,
+            'rib': rib_counter, 'trimaran': trimaran_counter}
 
 
 def get_unique_defect_labels(defects: List) -> Set:
