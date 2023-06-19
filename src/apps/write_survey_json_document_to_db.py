@@ -34,7 +34,10 @@ docs = ["FYS_SURVEY_REPORT_MOODY_29_issue_1.json",
         "FYS_SURVEY_REPORT_HIRONDELLE_MK2_issue_1.json"]
 """
 
-docs = ["NM136-R02_Rev_A_SALADIN_20191128DC_signed.json",
+docs = ["NM191_Spirit_of_Venus_Pre-purchase_Survey_20180209VM.json"
+        #"NM173-R01 - LADY ZOYA 20170831VM-GA.json"
+        #"pblgsample.json"
+        #"NM136-R02_Rev_A_SALADIN_20191128DC_signed.json",
         #"NM136-R01_Rev_A_SALADIN_20141219.json"
         #"PASS_FYS_SURVEY_REPORT_Ketch-rigged_Carvel_Hull_issue_1.json"
         #"FYS_SURVEY_REPORT_MOODY_35_issue_1.json"

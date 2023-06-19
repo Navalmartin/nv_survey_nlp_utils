@@ -40,7 +40,10 @@ if __name__ == "__main__":
         #"/home/alex/qi3/mir_datasets/surveys/preprocessed/FYS_SURVEY_REPORT_MOODY_35_issue_1.json"
         #"/home/alex/qi3/mir_datasets/surveys/preprocessed/PASS_FYS_SURVEY_REPORT_Ketch-rigged_Carvel_Hull_issue_1.json"
         #"/home/alex/qi3/mir_datasets/surveys/preprocessed/NM136-R01_Rev_A_SALADIN_20141219.json"
-        "/home/alex/qi3/mir_datasets/surveys/preprocessed/NM136-R02_Rev_A_SALADIN_20191128DC_signed.json"
+        #"/home/alex/qi3/mir_datasets/surveys/preprocessed/NM136-R02_Rev_A_SALADIN_20191128DC_signed.json"
+        #"/home/alex/qi3/mir_datasets/surveys/preprocessed/pblgsample.json"
+        #"/home/alex/qi3/mir_datasets/surveys/preprocessed/NM173-R01 - LADY ZOYA 20170831VM-GA.json"
+        "/home/alex/qi3/mir_datasets/surveys/preprocessed/NM191_Spirit_of_Venus_Pre-purchase_Survey_20180209VM.json"
     )
 
     logger.info(f"Reading survey from {survey_path}")
@@ -85,7 +88,10 @@ if __name__ == "__main__":
             "PROPELLER(S)": "PROPELLER",
             "SAT PHONE": "SATCOM",
             "SHAFT BEARING (CUTTLESS BEARING)": "SHAFT_BEARING",
-            "LIFERAFT": "LIFE_RAFTS_AND_RELEASE"
+            "LIFERAFT": "LIFE_RAFTS_AND_RELEASE",
+            "FIXED_FIRE_EXTINGUISHING_SYSTEM": 'FIRE_EXTINGUISHERS',
+            "EXHAUST_SYSTEM":'ENGINE_EXHAUST',
+            "RADAR_GPS_CHART_PLOTTER": 'RADAR'
 
         },
     )
@@ -206,8 +212,7 @@ if __name__ == "__main__":
             "POTABLE_WATER": "DOMESTIC_EQUIPMENT",
             "HEAT_EXCHANGER":"DOMESTIC_EQUIPMENT",
             "FUEL_TANK": "PROPULSION_MACHINERY",
-            "FUEL_TANK_FILLER": "PROPULSION_MACHINERY"
-
+            "FUEL_TANK_FILLER": "PROPULSION_MACHINERY",
         }
 
         counter = 0
